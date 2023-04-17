@@ -2,6 +2,7 @@ package com.app.tutorial.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import com.app.tutorial.beans.Vehicle;
 
@@ -15,6 +16,7 @@ public class ProjectConfig {
         return veh;
     }
 
+    @Primary
     @Bean
     public Vehicle vehicle2() {
         Vehicle veh = new Vehicle();

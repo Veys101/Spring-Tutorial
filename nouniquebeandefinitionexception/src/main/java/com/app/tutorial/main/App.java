@@ -15,6 +15,10 @@ public class App
     {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProjectConfig.class);
         // Vehicle veh = context.getBean(Vehicle.class);
+
+        Vehicle pVeh = context.getBean(Vehicle.class);
+        System.out.println("Primary Bean: " + pVeh.getName());
+
         Vehicle veh1 = context.getBean("vehicle1", Vehicle.class);
         System.out.println("First Vehicle name from Spring Context is: " + veh1.getName());
 
