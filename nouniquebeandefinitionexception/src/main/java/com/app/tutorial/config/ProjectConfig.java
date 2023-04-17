@@ -35,4 +35,18 @@ public class ProjectConfig {
         veh.setName("Ford");
         return veh;
     }
+
+    @Bean(name = "nissanVehicle")
+    public Vehicle vehicle5() {
+        Vehicle veh = new Vehicle();
+        veh.setName("Nissan");
+        return veh;
+    }
+
+    @Bean(value = "renaultVehicle")
+    public Vehicle vehicle6() {
+        Vehicle veh = new Vehicle();
+        veh.setName("Renault");
+        return veh;
+    }
 }

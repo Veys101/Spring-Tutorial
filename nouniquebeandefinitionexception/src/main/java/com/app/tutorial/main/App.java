@@ -26,5 +26,11 @@ public class App
 
         Vehicle veh4 = context.getBean("fordVehicle", Vehicle.class);
         System.out.println("Forth Vehicle name from Spring Context is: " + veh4.getName());
+
+        Vehicle veh5 = context.getBean("nissanVehicle", Vehicle.class);
+        System.out.println("Fifth Vehicle name from Spring Context is: " + veh5.getName());
+
+        Vehicle veh6 = context.getBean("renaultVehicle", Vehicle.class);
+        System.out.println("Sixth Vehicle name from Spring Context is: " + veh6.getName());
     }
 }
