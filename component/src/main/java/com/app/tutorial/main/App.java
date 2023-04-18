@@ -21,6 +21,6 @@ public class App
         veh.setName("Fiat");
         System.out.println("Component Vehicle Name from Spring Context is: " + veh.getName());
 
-
+        context.close();
     }
 }
