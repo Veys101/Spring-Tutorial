@@ -30,7 +30,7 @@ public class LoggerAspect {
 
     private Logger logger = Logger.getLogger(LoggerAspect.class.getName());
 
-    @Around("execution(* com.app.tutorial.services.*.*(..))")
+    @Around("execution(* com.app.tutorial.services.VehicleService.*(..))")
     public void log(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info(joinPoint.getSignature().toString() + " method execution start");
         Instant start = Instant.now();
@@ -41,13 +41,24 @@ public class LoggerAspect {
         logger.info(joinPoint.getSignature().toString() + " method execution end");
     }
 
-    @AfterThrowing(value = "execution(* com.app.tutorial.services.*.*(..))", throwing = "ex")
+    @Around("@annotation(com.app.tutorial.interfaces.LogAspect)")
+    public void logwithAnnotation(ProceedingJoinPoint joinPoint) throws Throwable{
+        logger.info(joinPoint.getSignature().toString() + " method execution start");
+        Instant start = Instant.now();
+        joinPoint.proceed();
+        Instant finish = Instant.now();
+        long timeElapsed = Duration.between(start, finish).toMillis();
+        logger.info("Time took to execute the method : " + timeElapsed);
+        logger.info(joinPoint.getSignature().toString() + " method execution end");
+    }
+
+    @AfterThrowing(value = "execution(* com.app.tutorial.services.VehicleService.*(..))", throwing = "ex")
     public void logException(JoinPoint joinPoint, Exception ex) {
         logger.log(Level.SEVERE, joinPoint.getSignature() + " An exception thrown with the help of " + 
         "@AfterThrowing which happened due to: " + ex.getMessage());
     }
 
-    @AfterReturning(value = "execution(* com.app.tutorial.services.*.*(..))", returning = "retVal")
+    @AfterReturning(value = "execution(* com.app.tutorial.services.VehicleService.*(..))", returning = "retVal")
     public void logStatus(JoinPoint joinPoint, Object retVal) {
         logger.log(Level.INFO, joinPoint.getSignature() + " Method succesfully processed with the status " + 
         retVal.toString());

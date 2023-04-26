@@ -4,6 +4,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.app.tutorial.config.ProjectConfig;
 import com.app.tutorial.model.Song;
+import com.app.tutorial.services.PersonService;
 import com.app.tutorial.services.VehicleService;
 
 public class App 
@@ -17,9 +18,13 @@ public class App
         song.setTitle("Blank Space");
         song.setSingerName("Taylor Swift");
         boolean vehicleStarted = true;
-        String moveVehicleStatus = vehicleService.moveVehicle(vehicleStarted);
-        String playMusicStatus = vehicleService.playMusic(vehicleStarted,song);
-        String applyBrakeStatus = vehicleService.applyBrake(vehicleStarted);
+        vehicleService.moveVehicle(vehicleStarted);
+        vehicleService.playMusic(vehicleStarted,song);
+        vehicleService.applyBrake(vehicleStarted);
+
+        PersonService personService = context.getBean(PersonService.class);
+        personService.setName("John");
+        personService.printPerson();
         context.close();
     }
 }
