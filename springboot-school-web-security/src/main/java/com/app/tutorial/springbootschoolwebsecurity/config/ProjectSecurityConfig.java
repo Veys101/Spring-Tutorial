@@ -37,14 +37,19 @@ public class ProjectSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeHttpRequests()
+                .requestMatchers("/dashboard").authenticated()
                 .requestMatchers("/home", "", "/").authenticated()
                 .requestMatchers("/holidays/**").permitAll()
                 .requestMatchers("/contact").permitAll()
                 .requestMatchers("/saveMsg").permitAll()
                 .requestMatchers("/courses").authenticated()
                 .requestMatchers("/about").permitAll()
+                .requestMatchers("/login").permitAll()
                 .requestMatchers("/assets/**").permitAll()
-                .and().formLogin().and().httpBasic();
+                .and().formLogin().loginPage("/login")
+                .defaultSuccessUrl("/dashboard").failureUrl("/login?error=true").permitAll()
+                .and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll()
+                .and().httpBasic();
 
         return http.build();
 
