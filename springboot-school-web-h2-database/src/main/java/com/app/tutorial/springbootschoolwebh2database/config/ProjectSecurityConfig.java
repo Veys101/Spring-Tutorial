@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,6 +39,8 @@ public class ProjectSecurityConfig {
         http.csrf().disable().authorizeHttpRequests()
                 .requestMatchers("/dashboard").authenticated()
                 .requestMatchers("/home", "", "/").authenticated()
+                .requestMatchers("/displayMessages").hasRole("ADMIN")
+                .requestMatchers("/closeMsg/**").hasRole("ADMIN")
                 .requestMatchers("/holidays/**").permitAll()
                 .requestMatchers("/contact").permitAll()
                 .requestMatchers("/saveMsg").permitAll()
@@ -51,8 +54,9 @@ public class ProjectSecurityConfig {
                 .and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll()
                 .and().httpBasic();
 
-        http.headers().frameOptions().disable();
-
+        http.headers(
+            headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+        );
         return http.build();
 
     }
@@ -70,7 +74,7 @@ public class ProjectSecurityConfig {
         UserDetails admin = User.builder()
                 .username("admin")
                 .password(passwordEncoder().encode("654321"))
-                .roles("USER", "ADMIN")
+                .roles("ADMIN")
                 .build();
 
         System.out.println(admin.getPassword());
