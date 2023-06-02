@@ -1,7 +1,8 @@
 package com.app.tutorial.springbootschoolwebnewuserregistration.constants;
 
 public interface StatusConstants {
-    public static final String ANONYMOUS = "Anonymous";
-    public static final String OPEN = "Open";
-    public static final String CLOSE = "Close";
+    String OPEN = "Open";
+    String CLOSE = "Close";
+    String STUDENT_ROLE = "STUDENT";
+    String ADMIN_ROLE = "ADMIN";
 }
