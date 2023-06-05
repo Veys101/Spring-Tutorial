@@ -1,6 +1,10 @@
 package com.app.tutorial.springbootschoolwebprofileaddress.controller;
 
+import com.app.tutorial.springbootschoolwebprofileaddress.model.Person;
+import com.app.tutorial.springbootschoolwebprofileaddress.repository.PersonRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +15,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class DashboardController {
 
-    @RequestMapping(value = "/dashboard", method = {RequestMethod.GET})
-    public String displayDashboard(Model model, Authentication authentication) {
-        model.addAttribute("username", authentication.getName());
+    private final PersonRepository personRepository;
+
+    @Autowired
+    public DashboardController (PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+
+    @RequestMapping(value = "/dashboard", method = {RequestMethod.GET, RequestMethod.POST})
+    public String displayDashboard(Model model, Authentication authentication, HttpSession httpSession) {
+        Person person = personRepository.readByEmail(authentication.getName());
+        model.addAttribute("username", person.getName());
         model.addAttribute("roles", authentication.getAuthorities().toString());
-        //throw new RuntimeException("It's been a bad day!!");
+        httpSession.setAttribute("loggedinperson", person);
         return "dashboard.html";
     }
 
