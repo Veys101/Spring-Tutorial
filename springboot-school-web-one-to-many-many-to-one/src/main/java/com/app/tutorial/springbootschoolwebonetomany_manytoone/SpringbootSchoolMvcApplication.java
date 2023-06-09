@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.app.tutorial.springbootschoolwebprofileaddress.repository")
-@EntityScan("com.app.tutorial.springbootschoolwebprofileaddress.model")
+@EnableJpaRepositories("com.app.tutorial.springbootschoolwebonetomany_manytoone.repository")
+@EntityScan("com.app.tutorial.springbootschoolwebonetomany_manytoone.model")
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 public class SpringbootSchoolMvcApplication {
 
