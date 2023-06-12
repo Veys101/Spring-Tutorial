@@ -1,6 +1,9 @@
 package com.app.tutorial.springbootschoolsortingandpagination.repository;
 
 import com.app.tutorial.springbootschoolsortingandpagination.model.Contact;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +15,7 @@ type to the Spring context and indicate that given Bean is used to perform
 DB related operations and
 * */
 @Repository
-public interface ContactRepository extends CrudRepository<Contact, Integer> {
+public interface ContactRepository extends JpaRepository<Contact, Integer> {
     List<Contact> findByStatus(String status);
+    Page<Contact> findByStatus(String status, Pageable pageable);
 }
