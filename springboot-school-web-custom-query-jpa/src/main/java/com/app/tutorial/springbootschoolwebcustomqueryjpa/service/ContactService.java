@@ -12,8 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.Optional;
-
 @Slf4j
 @Service
 //@RequestScope
@@ -45,22 +43,14 @@ public class ContactService {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending());
-        Page<Contact> msgPage = contactRepository.findByStatus(
-                StatusConstants.OPEN,pageable);
+        Page<Contact> msgPage = contactRepository.findOpenMsgsNative(
+                StatusConstants.OPEN, pageable);
         return msgPage;
     }
 
     public boolean updateMsgStatus(int contactId){
-        boolean isUpdated = false;
-        Optional<Contact> contact = contactRepository.findById(contactId);
-        contact.ifPresent(contact1 -> {
-            contact1.setStatus(StatusConstants.CLOSE);
-        });
-        Contact updatedContact = contactRepository.save(contact.get());
-        if(updatedContact.getUpdatedBy() != null) {
-            isUpdated = true;
-        }
-        return isUpdated;
+       int rows = contactRepository.updateMsgStatusNative(StatusConstants.CLOSE, contactId);
+       return rows > 0;
     }
 
     public void setCounter(int counter) {
