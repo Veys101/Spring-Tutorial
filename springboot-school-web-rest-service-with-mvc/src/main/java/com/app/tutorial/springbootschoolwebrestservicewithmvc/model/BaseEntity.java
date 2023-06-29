@@ -1,5 +1,6 @@
 package com.app.tutorial.springbootschoolwebrestservicewithmvc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -19,6 +20,7 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
+    @JsonIgnore
     private LocalDateTime createdAt;
 
     @CreatedBy
