@@ -19,16 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Profile("prod")
-public class WebSchoolUsernamePwdAuthenticationProvider implements AuthenticationProvider {
-
+@Profile("!prod")
+public class WebSchoolNoPwdAuthenticationProvider implements AuthenticationProvider {
     private final PersonRepository personRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSchoolUsernamePwdAuthenticationProvider(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+    public WebSchoolNoPwdAuthenticationProvider(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,7 +33,7 @@ public class WebSchoolUsernamePwdAuthenticationProvider implements Authenticatio
         String email = authentication.getName();
         String pwd = authentication.getCredentials().toString();
         Person person = personRepository.readByEmail(email);
-        if (person != null && person.getPersonId() > 0 && passwordEncoder.matches(pwd, person.getPwd())) {
+        if (person != null && person.getPersonId() > 0) {
             return new UsernamePasswordAuthenticationToken(email, null, getGrantedAuthorities(person.getRoles()));
         } else {
             throw new BadCredentialsException("Invalid Credentials!");
