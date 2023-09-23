@@ -19,6 +19,7 @@ public class ProjectSecurityConfig {
                 .requestMatchers("/dashboard").authenticated()
                 .requestMatchers("/displayMessages/**").hasRole("ADMIN")
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/actuator/**").hasRole("ADMIN")
                 .requestMatchers("api/**").authenticated()
                 .requestMatchers("/closeMsg/**").hasRole("ADMIN")
                 .requestMatchers("/displayProfile").authenticated()
